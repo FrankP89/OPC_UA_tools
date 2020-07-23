@@ -78,7 +78,7 @@ if __name__ == "__main__":
             time.sleep(1)
             for i in range(len(myvar)):
                 if myvar[i] is not None:
-                    print (myvar[i].get_display_name.__str__ , ", " , myvar[i].get_value())
+                    print (myvar[i].get_browse_name() , ", " , myvar[i].get_value())
                     time.sleep(0.2)
     finally:
         # close connection, remove subcsriptions, etc
