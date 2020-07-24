@@ -44,7 +44,7 @@ if __name__ == "__main__":
 
         # Stacked myvar access
         # print("myvar is: ", root.get_children()[0].get_children()[1].get_variables()[0].get_value())
-        print("myvar is: ", root.get_children()[0].get_children()[1].get_variables().get_value())
+        # print("myvar is: ", root.get_children()[0].get_children()[1].get_variables().get_value())
 
     finally:
         client.disconnect()

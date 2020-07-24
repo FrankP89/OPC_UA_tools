@@ -51,13 +51,13 @@ if __name__ == "__main__":
     myvar[18] = myobj.add_variable(idx, "fGet_AMR_odom_pose_lin_z", 0.0)
     myvar[19] = myobj.add_variable(idx, "fGet_AMR_odom_twist_orien_x", 0.0)
     myvar[20] = myobj.add_variable(idx, "fGet_AMR_odom_twist_orien_y", 0.0)
-    myvar[21] = myobj.add_variable(idx, "fGet_AMR_odom_twist_orien_z", 0.0)
+    myvar[21] = myobj.add_variable(idx, "fGet_AMR_odom_twist_ang_z", 0.0)
 
     myvar[22] = myobj.add_variable(idx, "sSet_action_to_AMR", "")
     myvar[23] = myobj.add_variable(idx, "bSet_AMR_e_stop", False)
-    myvar[24] = myobj.add_variable(idx, "fSet_AMR_pos_x", 0.0)
-    myvar[25] = myobj.add_variable(idx, "fSet_AMR_pos_y", 0.0)
-    myvar[26] = myobj.add_variable(idx, "fSet_AMR_pos_theta", 0.0)
+    myvar[24] = myobj.add_variable(idx, "fSet_AMR_pos_x", 0.0, ua.VariantType.Float)
+    myvar[25] = myobj.add_variable(idx, "fSet_AMR_pos_y", 0.0, ua.VariantType.Float)
+    myvar[26] = myobj.add_variable(idx, "fSet_AMR_pos_theta", 0.0, ua.VariantType.Float)
     myvar[27] = myobj.add_variable(idx, "bSet_pause_AMR", False)
     myvar[28] = myobj.add_variable(idx, "bSet_ready_AMR", False)
 
