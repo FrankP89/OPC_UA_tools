@@ -1,8 +1,15 @@
 """
-This code enables the communication from the KUKA iiwa controller to the OPC-UA server.
+This code enables the communication from the KUKA iiwa controller to any OPC-UA clients.
 
 This development was performed on the 28th of July, 2020.
 Maintainer and creator: Walter Frank Pintor Ortiz, walterpintor@gmail.com
+"""
+
+"""
+At this stage, the code only allows users to monitor Joint values.
+End-users may add more registers depending on the needs.
+
+TODO: Indicate how many registers to read when executing this program
 """
 
 import getopt
@@ -11,9 +18,12 @@ import platform
 import subprocess
 import sys
 import time
+import struct
 
+from threading import Thread, Lock
 from opcua import Server, ua
 from pyModbusTCP.client import ModbusClient
+from pyModbusTCP import utils
 
 print('Welcome to the Modbus/OPC-UA bridge for KUKA iiwa \nFor defined IP addresses, utilize the following arguments')
 print('modbus_opc_bridge.py --opc_ip <opc_ip> --opc_port <opc_port> --modbus_ip <mir_ip> --modbus_port <mir_port>')
@@ -24,14 +34,18 @@ ip_opc_server_address = "192.168.1.84"
 opc_port_server_no = 4840
 
 ip_modbus = "127.0.0.1"
-port_modbus = 502
+port_modbus = 10030
 ##############################################################################
 
 ##############################################################################
 # Global Variables
 myvar = []
 
+# Modbus regs - set global
+regs = []
 
+# init a thread lock
+regs_lock = Lock()
 ##############################################################################
 
 
@@ -86,35 +100,6 @@ def check_arguments(argv):
 ########## Connect functions #################################################
 ##############################################################################
 
-# Pinging function to check if AMR is there #
-def ping(host):
-    """
-    Returns True if host (str) responds to a ping request.
-    Remember that a host may not respond to a ping (ICMP) request even if the host name is valid.
-    Answer provided in: https://stackoverflow.com/questions/2953462/pinging-servers-in-python and
-    adapated to Windows.
-    """
-
-    # Option for the number of packets as a function of
-    param = '-n' if platform.system().lower() == 'windows' else '-c'
-
-    # Building the command. Ex: "ping -c 1 google.com"
-    command = ['ping', param, '1', host]
-
-    if platform.system().lower() == 'windows':
-        check = subprocess.Popen(["ping.exe", host], stdout=subprocess.PIPE).communicate()[0]
-    else:
-        print("Pinging...".format(host))
-        check = os.system("ping -c 1 " + host)
-
-        # check = subprocess.Popen(["ping", host], stdout=subprocess.PIPE).communicate()[0]
-
-    if ('unreachable' in str(check)) or (check == 1):
-        return 0
-    else:
-        return subprocess.call(command) == 0
-
-
 ################################
 ### Connect Modbus functions ###
 ################################
@@ -135,13 +120,20 @@ def start_modbus_client(modbus_ip, modbus_port):
 
 
 def read_robot_regs(client):
-    # Read registers that have robot position
-    regs = client.read_holding_registers(0, 15)
-    if regs:
-        print(regs)
-    else:
-        print("read error")
-    return regs
+    global regs  
+    # polling loop
+    while True:
+        # keep TCP open
+        if not client.is_open():
+            client.open()
+        # do modbus reading on socket
+        reg_list = client.read_holding_registers(0, 14)
+        # if read is ok, store result in regs (with thread lock synchronization)
+        if reg_list:
+            with regs_lock:
+                regs = list(reg_list)
+        # 1s before next polling
+        time.sleep(1)
 
 
 ################################
@@ -149,6 +141,7 @@ def read_robot_regs(client):
 ################################
 
 def create_opc_server():
+    global myvar
     # setup our server
     server = Server()
     server.set_endpoint("opc.tcp://" + ip_opc_server_address + ":" + str(opc_port_server_no) + "/freeopcua/server/")
@@ -162,14 +155,15 @@ def create_opc_server():
 
     # Add as needed - address space
     myvar = [None] * 30
-    myobj = objects.add_object(idx, "KUKAVariables")
-    myvar[0] = myobj.add_variable(idx, "sSet_send_action_to_AMR", "")
-    myvar[1] = myobj.add_variable(idx, "bGet_AMR_status", False)
-    myvar[2] = myobj.add_variable(idx, "fGet_AMR_battery_life", 0.0, ua.VariantType.Float)
-    myvar[3] = myobj.add_variable(idx, "fGet_AMR_pos_x", 0.0, ua.VariantType.Float)
-    myvar[4] = myobj.add_variable(idx, "fGet_AMR_pos_y", 0.0, ua.VariantType.Float)
-    myvar[5] = myobj.add_variable(idx, "fGet_AMR_pos_theta", 0.0, ua.VariantType.Float)
-    myvar[6] = myobj.add_variable(idx, "fGet_AMR_imu_orient_x", 0.0, ua.VariantType.Float)
+    myobj = objects.add_object(idx, "KUKA_Joints")
+    myvar[0] = myobj.add_variable(idx, "fGet_Joint_1", 0.0, ua.VariantType.Float)
+    myvar[1] = myobj.add_variable(idx, "fGet_Joint_2", 0.0, ua.VariantType.Float)
+    myvar[2] = myobj.add_variable(idx, "fGet_Joint_3", 0.0, ua.VariantType.Float)
+    myvar[3] = myobj.add_variable(idx, "fGet_Joint_4", 0.0, ua.VariantType.Float)
+    myvar[4] = myobj.add_variable(idx, "fGet_Joint_5", 0.0, ua.VariantType.Float)
+    myvar[5] = myobj.add_variable(idx, "fGet_Joint_6", 0.0, ua.VariantType.Float)
+    myvar[6] = myobj.add_variable(idx, "fGet_Joint_7", 0.0, ua.VariantType.Float)
+        
 
     for variables in range(len(myvar)):
         if myvar[variables] is not None:
@@ -180,6 +174,7 @@ def create_opc_server():
     try:
         # Starting OPC-UA Server!
         server.start()
+        print("OPC-UA server started!")
     except:
         # Retry opening
         create_opc_server()
@@ -189,23 +184,47 @@ def create_opc_server():
     return server
 
 
+##############################################################################
+########## End of Connect functions ##########################################
+##############################################################################
+
+
 def write_opc_space(opc_server, modbus_client):
-    while True:
-        try:
-            count = 0
-            while True:
-                time.sleep(1)
-                KUKAregs = read_robot_regs(modbus_client)
-                for i in range(len(myvar)):
-                    if myvar[i] is not None:
+    global myvar
+    final_val = []
+    # Start polling thread
+    modbus_poll = Thread(target=read_robot_regs, args= (modbus_client,))
+    # set daemon: polling thread will exit if main thread exit
+    modbus_poll.daemon = True
+    modbus_poll.start()
+    
+    try:      
+        while True:
+
+            # Print regs list (with thread lock synchronization)
+            with regs_lock:
+                print("Modbus (Holding) registers: ", regs)         
+
+            for i in range(len(myvar)):
+                if myvar[i] is not None:      
+                    if regs:
+                        # Combine regs. Use the last reg in the first arg.
+                        mixed_regs = struct.pack('>HH', regs[(i*2)+1], regs[(i*2)])
+                        final_val.append(struct.unpack('>f', mixed_regs)[0])
+                        
+                        dv = ua.DataValue(ua.Variant(final_val[i], ua.VariantType.Float))
+                        myvar[i].set_value(dv)
                         print(myvar[i].get_browse_name(), ", ", myvar[i].get_value())
-                        time.sleep(0.2)
-        finally:
-            # close connection, remove subscriptions, etc
-            print("Closing connection")
-            opc_server.stop()
-            modbus_client.close()
-            break
+                        time.sleep(0.2)            
+            
+            # 1 sec before next print
+            time.sleep(0.5)
+            
+    finally:
+        # close connection, remove subscriptions, etc
+        print("Closing connections")
+        opc_server.stop()
+        modbus_client.close()
 
 
 if __name__ == "__main__":
