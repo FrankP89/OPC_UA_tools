@@ -101,18 +101,23 @@ if __name__ == "__main__":
             myvar[variables].set_writable()  # Set MyVariable to be writable by clients
             time.sleep(0.05)   
 
-    # starting!
+    # Starting server!
     server.start()
     
     try:
         count = 0
         while True:
-            time.sleep(1)
+            time.sleep(0.3)
             for i in range(len(myvar)):
                 if myvar[i] is not None:
                     print (myvar[i].get_browse_name() , ", " , myvar[i].get_value())
                     time.sleep(0.2)
+
+    except:
+        # Ensuring connection is closed!
+        server.stop()
+
     finally:
-        # close connection, remove subcsriptions, etc
+        # Close connection, remove subcsriptions, etc.
         print("Closing connection")
         server.stop()
