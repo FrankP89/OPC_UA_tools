@@ -4,10 +4,10 @@ block_cipher = None
 
 
 a = Analysis(['server.py'],
-             pathex=['/home/frank/Desktop/opc_tools/OPC_UA_tools'],
+             pathex=['C:\\Users\\walter-frank\\PycharmProjects\\OPC_UA_tools'],
              binaries=[],
              datas=[],
-             hiddenimports=[],
+             hiddenimports=['opcua'],
              hookspath=[],
              runtime_hooks=[],
              excludes=[],
