@@ -1,0 +1,2 @@
+ZED_OPC
+-DCATKIN_DEVEL_PREFIX=/home/limgw/ros/OPC_UA_tools/ZED_OPC_BRIDGE/CMM/devel -DCMAKE_INSTALL_PREFIX=/home/limgw/ros/OPC_UA_tools/ZED_OPC_BRIDGE/CMM/install -G Unix Makefiles

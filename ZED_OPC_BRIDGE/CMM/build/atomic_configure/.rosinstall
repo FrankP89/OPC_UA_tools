@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/limgw/ros/OPC_UA_tools/ZED_OPC_BRIDGE/CMM/devel/setup.sh
