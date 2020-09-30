@@ -61,7 +61,7 @@ if __name__ == "__main__":
     objects = server.get_objects_node()
 
     # Add as needed - address space
-    myvar = [None] * 35
+    myvar = [None] * 36
     myobj = objects.add_object(idx, "MiRVariables")
     myvar[0] = myobj.add_variable(idx, "sSet_send_action_to_AMR", "")
     myvar[1] = myobj.add_variable(idx, "bGet_AMR_status", False)
@@ -94,7 +94,13 @@ if __name__ == "__main__":
     myvar[27] = myobj.add_variable(idx, "bSet_pause_AMR", False)
     myvar[28] = myobj.add_variable(idx, "bSet_ready_AMR", False)
 
-    myvar[29] = myobj.add_variable(idx, "fZEDx", 0.0, ua.VariantType.Float)
+    myvar[29] = myobj.add_variable(idx, "fZEDx", 0.0, ua.VariantType.Double)
+    myvar[30] = myobj.add_variable(idx, "fZEDy", 0.0, ua.VariantType.Double)
+    myvar[31] = myobj.add_variable(idx, "fZEDz", 0.0, ua.VariantType.Double)
+    myvar[32] = myobj.add_variable(idx, "fZEDq1", 0.0, ua.VariantType.Double)
+    myvar[33] = myobj.add_variable(idx, "fZEDq2", 0.0, ua.VariantType.Double)
+    myvar[34] = myobj.add_variable(idx, "fZEDq3", 0.0, ua.VariantType.Double)
+    myvar[35] = myobj.add_variable(idx, "fZEDq4", 0.0, ua.VariantType.Double)
 
 
     for variables in range(len(myvar)):
