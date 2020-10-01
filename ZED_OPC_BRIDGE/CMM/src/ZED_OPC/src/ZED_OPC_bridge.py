@@ -1,10 +1,10 @@
 #!/usr/bin/env python  
 #
-import roslib
-import rospy
+#import roslib
+#import rospy
 import math
-import tf
-import geometry_msgs.msg
+#import tf
+#import geometry_msgs.msg
 import time
 
 from opcua import Client
@@ -53,14 +53,15 @@ def ua_info_update():
 	global ZEDq3
 	global ZEDq4
 
+	root_base = client.get_root_node()
 
-	opc_zedx = client.get_node("ns=2;s=Variables.fZEDx")
-	opc_zedy = client.get_node("ns=2;s=Variables.fZEDy")
-	opc_zedz = client.get_node("ns=2;s=Variables.fZEDz")
-	opc_zedq1 = client.get_node("ns=2;s=Variables.fZEDq1")
-	opc_zedq2 = client.get_node("ns=2;s=Variables.fZEDq2")
-	opc_zedq3 = client.get_node("ns=2;s=Variables.fZEDq3")
-	opc_zedq4 = client.get_node("ns=2;s=Variables.fZEDq4")
+	opc_zedx = root_base.get_child(["0:Objects", "2:Variables", "2:fZEDx"])
+	opc_zedy = root_base.get_child(["0:Objects", "2:Variables", "2:fZEDy"])
+	opc_zedz = root_base.get_child(["0:Objects", "2:Variables", "2:fZEDz"])
+	opc_zedq1 = root_base.get_child(["0:Objects", "2:Variables", "2:fZEDq1"])
+	opc_zedq2 = root_base.get_child(["0:Objects", "2:Variables", "2:fZEDq2"])
+	opc_zedq3 = root_base.get_child(["0:Objects", "2:Variables", "2:fZEDq3"])
+	opc_zedq4 = root_base.get_child(["0:Objects", "2:Variables", "2:fZEDq4"])
 	print("Value from UA space: ", opc_zedx)
 
 	dv = ua.DataValue(ua.Variant(ZEDx, ua.VariantType.Float))
@@ -82,51 +83,56 @@ def ua_info_update():
 
 
 if __name__ == '__main__':
+	
 	# Connect to OPC-UA server first	
 	is_connected = opc_client_connect()
 
-	if is_connected:
+	try:
+		if is_connected:
 
-		# Initialize node
-		#rospy.init_node('zed_tf_bridge')
+			# Initialize node
+			#rospy.init_node('zed_tf_bridge')
 
-		#listener = tf.TransformListener()
-		
-		# Define the rate of spinning
-		#rate = rospy.Rate(10.0)
-		#while not rospy.is_shutdown():
-		while True:
-			# Obtain values for the translation and rotation
-			#(trans,rot) = listener.lookupTransform('/aruco_zed_frame', '/object_1', rospy.Time(0))
-			#print(type(trans[0]))
-			#print(trans)
-			try: 
-				# Convert trans and rot information - Extract them as individual values
-				#ZEDx = trans[0]
-				#ZEDy = trans[1]
-				#ZEDz = trans[2]
-				#ZEDq1 = rot[0]
-				#ZEDq2 = rot[1]
-				#ZEDq3 = rot[2]
-				#ZEDq4 = rot[3]
+			#listener = tf.TransformListener()
+			
+			# Define the rate of spinning
+			#rate = rospy.Rate(10.0)
+			#while not rospy.is_shutdown():
+			while True:
+				# Obtain values for the translation and rotation
+				#(trans,rot) = listener.lookupTransform('/aruco_zed_frame', '/object_1', rospy.Time(0))
+				#print(type(trans[0]))
+				#print(trans)
+				try: 
+					# Convert trans and rot information - Extract them as individual values
+					#ZEDx = trans[0]
+					#ZEDy = trans[1]
+					#ZEDz = trans[2]
+					#ZEDq1 = rot[0]
+					#ZEDq2 = rot[1]
+					#ZEDq3 = rot[2]
+					#ZEDq4 = rot[3]
 
-				ZEDx = 1.0
-				ZEDy = 2.0
-				ZEDz = 3.0
-				ZEDq1 = 4.0
-				ZEDq2 = 5.0
-				ZEDq3 = 6.0
-				ZEDq4 = 7.0
-				
+					ZEDx = 1.0
+					ZEDy = 2.0
+					ZEDz = 3.0
+					ZEDq1 = 4.0
+					ZEDq2 = 5.0
+					ZEDq3 = 6.0
+					ZEDq4 = 7.0
+					
 
-				# Update the UA Address Space
-				ua_info_update()
+					# Update the UA Address Space
+					ua_info_update()
 
-			except:
-				continue
+				except:
+					continue
 
-		#except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
-			#continue
+			#except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
+				#continue
 
-		
-		#rate.sleep()
+			
+			#rate.sleep()
+	finally:
+		print("Closing connection")
+		client.close_session()
