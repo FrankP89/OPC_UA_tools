@@ -1,0 +1,7 @@
+digraph G {
+"aruco_zed_frame" -> "object_1"[label="Broadcaster: /static_transform_publisher_1601892707488864627\nAverage rate: 10000.000 Hz\nMost recent transform: 0.000 ( 1601892857.150 sec old)\nBuffer length: 0.000 sec\n"];
+edge [style=invis];
+ subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
+"Recorded at time: 1601892857.150"[ shape=plaintext ] ;
+ }->"aruco_zed_frame";
+}

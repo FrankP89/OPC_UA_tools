@@ -1,10 +1,11 @@
-#!/usr/bin/env python  
+#!/usr/bin/env python2  
 #
 #import roslib
-#import rospy
-import math
-#import tf
-#import geometry_msgs.msg
+import rospy
+#import math
+import tf2_ros
+import tf
+import geometry_msgs.msg
 import time
 
 from opcua import Client
@@ -40,7 +41,6 @@ def close():
 	except: 
 		pass
 		print("Failed to close")
-	
 
 
 def ua_info_update():
@@ -91,48 +91,59 @@ if __name__ == '__main__':
 		if is_connected:
 
 			# Initialize node
-			#rospy.init_node('zed_tf_bridge')
+			rospy.init_node('zed_tf_bridge')
 
-			#listener = tf.TransformListener()
+			tfBuffer = tf2_ros.Buffer()
+			listener = tf2_ros.TransformListener(tfBuffer)
 			
 			# Define the rate of spinning
-			#rate = rospy.Rate(10.0)
-			#while not rospy.is_shutdown():
-			while True:
-				# Obtain values for the translation and rotation
-				#(trans,rot) = listener.lookupTransform('/aruco_zed_frame', '/object_1', rospy.Time(0))
-				#print(type(trans[0]))
-				#print(trans)
-				try: 
-					# Convert trans and rot information - Extract them as individual values
-					#ZEDx = trans[0]
-					#ZEDy = trans[1]
-					#ZEDz = trans[2]
-					#ZEDq1 = rot[0]
-					#ZEDq2 = rot[1]
-					#ZEDq3 = rot[2]
-					#ZEDq4 = rot[3]
+			rate = rospy.Rate(10.0)
+			# while True:
+			while not rospy.is_shutdown():
 
-					ZEDx = 1.0
-					ZEDy = 2.0
-					ZEDz = 3.0
-					ZEDq1 = 4.0
-					ZEDq2 = 5.0
-					ZEDq3 = 6.0
-					ZEDq4 = 7.0
+				try:
+					#listener = tf.TransformListener()
+					# Obtain values for the translation and rotation
+					#listener.waitForTransform('/aruco_zed_frame', '/object_1', rospy.Time(0), rospy.Duration(4.0))
+					#(trans,rot) = listener.lookupTransform('/aruco_zed_frame', '/object_1', rospy.Time.now())
+
 					
+					trans = tfBuffer.lookup_transform('aruco_zed_frame', 'object_1', rospy.Time.now(), rospy.Duration(4.0))
 
-					# Update the UA Address Space
-					ua_info_update()
+					try: 
+						# Convert trans and rot information - Extract them as individual values
+						ZEDx = trans.transform.translation.x
+						ZEDy = trans.transform.translation.y
+						ZEDz = trans.transform.translation.z
+						ZEDq1 = trans.transform.rotation.x
+						ZEDq2 = trans.transform.rotation.y
+						ZEDq3 = trans.transform.rotation.z
+						ZEDq4 = trans.transform.rotation.w
 
-				except:
+						#ZEDx = 1.0
+						#ZEDy = 2.0
+						#ZEDz = 3.0
+						#ZEDq1 = 4.0
+						#ZEDq2 = 5.0
+						#ZEDq3 = 6.0
+						#ZEDq4 = 7.0
+						
+						# Update the UA Address Space
+						ua_info_update()
+
+					except:
+						print("Failed to write variables")
+						rate.sleep()
+						continue
+
+
+				except Exception as e:
+					print("Failed to find frame", e)
+					time.sleep(2.0)
 					continue
 
-			#except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
-				#continue
-
 			
-			#rate.sleep()
+				rate.sleep()
 	finally:
 		print("Closing connection")
 		client.close_session()
