@@ -1,4 +1,4 @@
-prefix=/home/limgw/ros/OPC_UA_tools/ZED_OPC_BRIDGE/CMM/devel
+prefix=/home/limgw/ros/test_crp7_5g/ZED_OPC_BRIDGE/CMM/devel
 
 Name: ZED_OPC
 Description: Description of ZED_OPC

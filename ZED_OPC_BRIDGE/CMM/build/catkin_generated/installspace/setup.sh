@@ -11,7 +11,7 @@
 
 # since this file is sourced either use the provided _CATKIN_SETUP_DIR
 # or fall back to the destination set at configure time
-: ${_CATKIN_SETUP_DIR:=/home/limgw/ros/OPC_UA_tools/ZED_OPC_BRIDGE/CMM/install}
+: ${_CATKIN_SETUP_DIR:=/home/limgw/ros/test_crp7_5g/ZED_OPC_BRIDGE/CMM/install}
 _SETUP_UTIL="$_CATKIN_SETUP_DIR/_setup_util.py"
 unset _CATKIN_SETUP_DIR
 

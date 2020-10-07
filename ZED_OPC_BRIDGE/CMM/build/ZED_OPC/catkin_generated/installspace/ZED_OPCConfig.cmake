@@ -67,14 +67,14 @@ set(ZED_OPC_CONFIG_INCLUDED TRUE)
 
 # set variables for source/devel/install prefixes
 if("FALSE" STREQUAL "TRUE")
-  set(ZED_OPC_SOURCE_PREFIX /home/limgw/ros/OPC_UA_tools/ZED_OPC_BRIDGE/CMM/src/ZED_OPC)
-  set(ZED_OPC_DEVEL_PREFIX /home/limgw/ros/OPC_UA_tools/ZED_OPC_BRIDGE/CMM/devel)
+  set(ZED_OPC_SOURCE_PREFIX /home/limgw/ros/test_crp7_5g/ZED_OPC_BRIDGE/CMM/src/ZED_OPC)
+  set(ZED_OPC_DEVEL_PREFIX /home/limgw/ros/test_crp7_5g/ZED_OPC_BRIDGE/CMM/devel)
   set(ZED_OPC_INSTALL_PREFIX "")
   set(ZED_OPC_PREFIX ${ZED_OPC_DEVEL_PREFIX})
 else()
   set(ZED_OPC_SOURCE_PREFIX "")
   set(ZED_OPC_DEVEL_PREFIX "")
-  set(ZED_OPC_INSTALL_PREFIX /home/limgw/ros/OPC_UA_tools/ZED_OPC_BRIDGE/CMM/install)
+  set(ZED_OPC_INSTALL_PREFIX /home/limgw/ros/test_crp7_5g/ZED_OPC_BRIDGE/CMM/install)
   set(ZED_OPC_PREFIX ${ZED_OPC_INSTALL_PREFIX})
 endif()
 
@@ -154,7 +154,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/limgw/ros/OPC_UA_tools/ZED_OPC_BRIDGE/CMM/install/lib;/home/limgw/ros/crp7_5gMM_zed/devel/lib;/opt/ros/melodic/lib)
+    foreach(path /home/limgw/ros/test_crp7_5g/ZED_OPC_BRIDGE/CMM/install/lib;/home/limgw/ros/crp7_5gMM_ipcam/devel/lib;/opt/ros/melodic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)

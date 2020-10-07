@@ -2,7 +2,7 @@
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/limgw/ros/OPC_UA_tools/ZED_OPC_BRIDGE/CMM/install")
+  set(CMAKE_INSTALL_PREFIX "/home/limgw/ros/test_crp7_5g/ZED_OPC_BRIDGE/CMM/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 

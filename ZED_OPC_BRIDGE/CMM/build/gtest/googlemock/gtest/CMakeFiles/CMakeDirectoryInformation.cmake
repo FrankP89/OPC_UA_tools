@@ -3,7 +3,7 @@
 
 # Relative path conversion top directories.
 set(CMAKE_RELATIVE_PATH_TOP_SOURCE "/usr/src/googletest")
-set(CMAKE_RELATIVE_PATH_TOP_BINARY "/home/limgw/ros/OPC_UA_tools/ZED_OPC_BRIDGE/CMM/build")
+set(CMAKE_RELATIVE_PATH_TOP_BINARY "/home/limgw/ros/test_crp7_5g/ZED_OPC_BRIDGE/CMM/build")
 
 # Force unix paths in dependencies.
 set(CMAKE_FORCE_UNIX_PATHS 1)

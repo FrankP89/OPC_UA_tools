@@ -15,13 +15,13 @@ url = "opc.tcp://127.0.0.1:4840/freeopcua/server/"
 client = Client(url)
 
 # Declare variables to update from ROS
-ZEDx = 0
-ZEDy = 0
-ZEDz = 0
-ZEDq1 = 0
-ZEDq2= 0
-ZEDq3 = 0
-ZEDq4 = 0
+ZEDx = 0.0
+ZEDy = 0.0
+ZEDz = 0.0
+ZEDq1 = 0.0
+ZEDq2= 0.0
+ZEDq3 = 0.0
+ZEDq4 = 1.0
 
 def opc_client_connect():
 	# OPC-UA connection
@@ -62,7 +62,7 @@ def ua_info_update():
 	opc_zedq2 = root_base.get_child(["0:Objects", "2:Variables", "2:fZEDq2"])
 	opc_zedq3 = root_base.get_child(["0:Objects", "2:Variables", "2:fZEDq3"])
 	opc_zedq4 = root_base.get_child(["0:Objects", "2:Variables", "2:fZEDq4"])
-	print("Value from UA space: ", opc_zedx)
+	
 
 	dv = ua.DataValue(ua.Variant(ZEDx, ua.VariantType.Float))
 	opc_zedx.set_value(dv)
@@ -78,6 +78,8 @@ def ua_info_update():
 	opc_zedq3.set_value(dv)
 	dv = ua.DataValue(ua.Variant(ZEDq4, ua.VariantType.Float))
 	opc_zedq4.set_value(dv)
+
+	print("Value from UA space: ", opc_zedq4)
 
 	time.sleep(1)
 
@@ -108,25 +110,27 @@ if __name__ == '__main__':
 					#(trans,rot) = listener.lookupTransform('/aruco_zed_frame', '/object_1', rospy.Time.now())
 
 					
-					trans = tfBuffer.lookup_transform('aruco_zed_frame', 'object_1', rospy.Time.now(), rospy.Duration(4.0))
+					trans = tfBuffer.lookup_transform('aruco_marker_frame', 'object_1', rospy.Time.now(), rospy.Duration(4.0))
 
 					try: 
+						
 						# Convert trans and rot information - Extract them as individual values
-						ZEDx = trans.transform.translation.x
-						ZEDy = trans.transform.translation.y
-						ZEDz = trans.transform.translation.z
-						ZEDq1 = trans.transform.rotation.x
-						ZEDq2 = trans.transform.rotation.y
-						ZEDq3 = trans.transform.rotation.z
-						ZEDq4 = trans.transform.rotation.w
+						trans.transform.translation.x = ZEDx
+						trans.transform.translation.y = ZEDy
+						trans.transform.translation.z = ZEDz
+						trans.transform.rotation.x = ZEDq1
+						trans.transform.rotation.y = ZEDq2
+						trans.transform.rotation.z = ZEDq3
+						trans.transform.rotation.w = ZEDq4
 
-						#ZEDx = 1.0
-						#ZEDy = 2.0
-						#ZEDz = 3.0
-						#ZEDq1 = 4.0
-						#ZEDq2 = 5.0
-						#ZEDq3 = 6.0
-						#ZEDq4 = 7.0
+						ZEDx = 1.0
+						ZEDy = 2.0
+						ZEDz = 3.0
+						
+						#ZEDq1 = 0.0
+						#ZEDq2 = 1.0
+						#ZEDq3 = 0.0
+						#ZEDq4 = 0.0
 						
 						# Update the UA Address Space
 						ua_info_update()

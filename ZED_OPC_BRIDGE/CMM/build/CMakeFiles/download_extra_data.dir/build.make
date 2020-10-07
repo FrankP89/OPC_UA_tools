@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/limgw/ros/OPC_UA_tools/ZED_OPC_BRIDGE/CMM/src
+CMAKE_SOURCE_DIR = /home/limgw/ros/test_crp7_5g/ZED_OPC_BRIDGE/CMM/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/limgw/ros/OPC_UA_tools/ZED_OPC_BRIDGE/CMM/build
+CMAKE_BINARY_DIR = /home/limgw/ros/test_crp7_5g/ZED_OPC_BRIDGE/CMM/build
 
 # Utility rule file for download_extra_data.
 
@@ -67,6 +67,6 @@ CMakeFiles/download_extra_data.dir/clean:
 .PHONY : CMakeFiles/download_extra_data.dir/clean
 
 CMakeFiles/download_extra_data.dir/depend:
-	cd /home/limgw/ros/OPC_UA_tools/ZED_OPC_BRIDGE/CMM/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/limgw/ros/OPC_UA_tools/ZED_OPC_BRIDGE/CMM/src /home/limgw/ros/OPC_UA_tools/ZED_OPC_BRIDGE/CMM/src /home/limgw/ros/OPC_UA_tools/ZED_OPC_BRIDGE/CMM/build /home/limgw/ros/OPC_UA_tools/ZED_OPC_BRIDGE/CMM/build /home/limgw/ros/OPC_UA_tools/ZED_OPC_BRIDGE/CMM/build/CMakeFiles/download_extra_data.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/limgw/ros/test_crp7_5g/ZED_OPC_BRIDGE/CMM/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/limgw/ros/test_crp7_5g/ZED_OPC_BRIDGE/CMM/src /home/limgw/ros/test_crp7_5g/ZED_OPC_BRIDGE/CMM/src /home/limgw/ros/test_crp7_5g/ZED_OPC_BRIDGE/CMM/build /home/limgw/ros/test_crp7_5g/ZED_OPC_BRIDGE/CMM/build /home/limgw/ros/test_crp7_5g/ZED_OPC_BRIDGE/CMM/build/CMakeFiles/download_extra_data.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/download_extra_data.dir/depend
 

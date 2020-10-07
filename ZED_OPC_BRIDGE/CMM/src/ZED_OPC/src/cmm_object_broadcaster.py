@@ -71,7 +71,6 @@ def get_object_frame_from_opc():
 	opc_zedq2 = root_base.get_child(["0:Objects", "2:Variables", "2:fZEDq2"])
 	opc_zedq3 = root_base.get_child(["0:Objects", "2:Variables", "2:fZEDq3"])
 	opc_zedq4 = root_base.get_child(["0:Objects", "2:Variables", "2:fZEDq4"])
-	print("Values updated from address space")
 	
 	tx = opc_zedx.get_value()
 	ty = opc_zedy.get_value()
@@ -83,6 +82,8 @@ def get_object_frame_from_opc():
 
 	trans = (tx, ty, tz)
 	rot = (qx, qy, qz, qw)
+	print(trans)
+	print(rot)
 	return trans, rot 
 
 def object_broadcaster(trans, rot):

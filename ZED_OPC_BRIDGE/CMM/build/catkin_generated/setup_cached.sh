@@ -7,7 +7,7 @@
 # new environment variables
 
 # modified environment variables
-export CMAKE_PREFIX_PATH="/home/limgw/ros/OPC_UA_tools/ZED_OPC_BRIDGE/CMM/devel:$CMAKE_PREFIX_PATH"
-export PWD='/home/limgw/ros/OPC_UA_tools/ZED_OPC_BRIDGE/CMM/build'
-export ROSLISP_PACKAGE_DIRECTORIES="/home/limgw/ros/OPC_UA_tools/ZED_OPC_BRIDGE/CMM/devel/share/common-lisp:$ROSLISP_PACKAGE_DIRECTORIES"
-export ROS_PACKAGE_PATH="/home/limgw/ros/OPC_UA_tools/ZED_OPC_BRIDGE/CMM/src:$ROS_PACKAGE_PATH"
+export CMAKE_PREFIX_PATH="/home/limgw/ros/test_crp7_5g/ZED_OPC_BRIDGE/CMM/devel:$CMAKE_PREFIX_PATH"
+export PWD='/home/limgw/ros/test_crp7_5g/ZED_OPC_BRIDGE/CMM/build'
+export ROSLISP_PACKAGE_DIRECTORIES="/home/limgw/ros/test_crp7_5g/ZED_OPC_BRIDGE/CMM/devel/share/common-lisp:$ROSLISP_PACKAGE_DIRECTORIES"
+export ROS_PACKAGE_PATH="/home/limgw/ros/test_crp7_5g/ZED_OPC_BRIDGE/CMM/src:$ROS_PACKAGE_PATH"

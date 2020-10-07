@@ -72,7 +72,7 @@ if __name__ == "__main__":
     myvar[6] = myobj.add_variable(idx, "fGet_AMR_imu_orient_x", 0.0, ua.VariantType.Float)
     myvar[7] = myobj.add_variable(idx, "fGet_AMR_imu_orient_y", 0.0, ua.VariantType.Float)
     myvar[8] = myobj.add_variable(idx, "fGet_AMR_imu_orient_z", 0.0, ua.VariantType.Float)
-    myvar[9] = myobj.add_variable(idx, "fGet_AMR_imu_orient_w", 0.0, ua.VariantType.Float)
+    myvar[9] = myobj.add_variable(idx, "fGet_AMR_imu_orient_w", 1.0, ua.VariantType.Float)
     myvar[10] = myobj.add_variable(idx, "fGet_AMR_imu_ang_vel_x", 0.0, ua.VariantType.Float)
     myvar[11] = myobj.add_variable(idx, "fGet_AMR_imu_ang_vel_y", 0.0, ua.VariantType.Float)
     myvar[12] = myobj.add_variable(idx, "fGet_AMR_imu_ang_vel_z", 0.0, ua.VariantType.Float)
@@ -100,7 +100,7 @@ if __name__ == "__main__":
     myvar[32] = myobj.add_variable(idx, "fZEDq1", 0.0, ua.VariantType.Float)
     myvar[33] = myobj.add_variable(idx, "fZEDq2", 0.0, ua.VariantType.Float)
     myvar[34] = myobj.add_variable(idx, "fZEDq3", 0.0, ua.VariantType.Float)
-    myvar[35] = myobj.add_variable(idx, "fZEDq4", 0.0, ua.VariantType.Float)
+    myvar[35] = myobj.add_variable(idx, "fZEDq4", 1.0, ua.VariantType.Float)
 
 
     for variables in range(len(myvar)):
