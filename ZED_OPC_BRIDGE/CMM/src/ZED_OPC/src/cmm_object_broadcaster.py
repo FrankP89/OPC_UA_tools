@@ -22,7 +22,7 @@ from opcua import ua
 '''
 
 # Change IP where needed
-url = "opc.tcp://127.0.0.1:4840/freeopcua/server/"
+url = "opc.tcp://10.100.111.30:4840/freeopcua/server/"
 opc_client = Client(url)
 
 def opc_client_connect():
@@ -45,13 +45,13 @@ def close():
 		print("Failed to close")
 
 # Define variables
-tx = 0.0
-ty = 0.0
-tz = 0.0
-qx = 0.0
-qy = 0.0
-qz = 0.0
-qw = 1.0
+# tx = 0.0
+# ty = 0.0
+# tz = 0.0
+# qx = 0.0
+# qy = 0.0
+# qz = 0.0
+# qw = 1.0
 
 def get_object_frame_from_opc():
 	global tx
@@ -82,13 +82,16 @@ def get_object_frame_from_opc():
 
 	trans = (tx, ty, tz)
 	rot = (qx, qy, qz, qw)
-	print(trans)
-	print(rot)
+	print("*===========================================================================================================*")
+	print("Object name: {}".format(objectName))
+	print("Translation coordinates: {}".format(trans))
+	print("Rotation coordinates: {}".format(rot))
+	print("*=============================================================================================================*\n")
 	return trans, rot 
 
-def object_broadcaster(trans, rot):
+def object_broadcaster(trans, rot):	
 	br = tf.TransformBroadcaster()
-	br.sendTransform(trans, rot, rospy.Time.now(), objectName, "/aruco_marker_frame")
+	br.sendTransform(trans, rot, rospy.Time.now(), objectName, "/aruco_frame_zed")
 
 	return
 	
@@ -118,4 +121,4 @@ if __name__ == "__main__":
 
 	finally:
 		print("Closing connection")
-		client.close_session()
+		opc_client.close_session()

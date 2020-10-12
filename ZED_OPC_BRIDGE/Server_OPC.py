@@ -12,7 +12,7 @@ import time
 from opcua import Server, ua
 
 myvar = []
-ip_opc_server_address = "127.0.0.1"
+ip_opc_server_address = "10.100.111.30"
 opc_port_server_no = 4840
 
 print ('Welcome to a customized OPC-UA server for 5G \nFor defined IP addresses, utilize the following arguments')

@@ -109,29 +109,19 @@ if __name__ == '__main__':
 					#listener.waitForTransform('/aruco_zed_frame', '/object_1', rospy.Time(0), rospy.Duration(4.0))
 					#(trans,rot) = listener.lookupTransform('/aruco_zed_frame', '/object_1', rospy.Time.now())
 
-					
-					trans = tfBuffer.lookup_transform('aruco_marker_frame', 'object_1', rospy.Time.now(), rospy.Duration(4.0))
+					trans = tfBuffer.lookup_transform('aruco_frame_zed', 'object_1', rospy.Time.now(), rospy.Duration(4.0))
 
 					try: 
 						
 						# Convert trans and rot information - Extract them as individual values
-						trans.transform.translation.x = ZEDx
-						trans.transform.translation.y = ZEDy
-						trans.transform.translation.z = ZEDz
-						trans.transform.rotation.x = ZEDq1
-						trans.transform.rotation.y = ZEDq2
-						trans.transform.rotation.z = ZEDq3
-						trans.transform.rotation.w = ZEDq4
+						ZEDx = trans.transform.translation.x
+						ZEDy = trans.transform.translation.y
+						ZEDz = trans.transform.translation.z
+						ZEDq1 = trans.transform.rotation.x
+						ZEDq2 = trans.transform.rotation.y
+						ZEDq3 = trans.transform.rotation.z
+						ZEDq4 = trans.transform.rotation.w
 
-						ZEDx = 1.0
-						ZEDy = 2.0
-						ZEDz = 3.0
-						
-						#ZEDq1 = 0.0
-						#ZEDq2 = 1.0
-						#ZEDq3 = 0.0
-						#ZEDq4 = 0.0
-						
 						# Update the UA Address Space
 						ua_info_update()
 
@@ -146,7 +136,6 @@ if __name__ == '__main__':
 					time.sleep(2.0)
 					continue
 
-			
 				rate.sleep()
 	finally:
 		print("Closing connection")
